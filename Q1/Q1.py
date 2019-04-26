@@ -1,4 +1,5 @@
 ﻿import os
+import sys
 # We can use a depth first traversal to detect cycles in a graph
 
 # If while visiting adjacent vertices we end up visiting something that has already been visited
@@ -80,5 +81,15 @@ def Q1():
     print("Does graph contain cycles? {}".format(g.cyclic_bool))
 
 
+def main():
+    rel_path = sys.argv[1]  # "/data/mediumEWG.txt"
+    cwd = os.getcwd()
+    abs_file_path = cwd + rel_path
+    g = load_txt_as_graph(abs_file_path)
+    print("Running modified DFS to look for cycles")
+    g.DFS()
+    print("Does graph contain cycles? {}".format(g.cyclic_bool))
+
+
 if __name__ == "__main__":
-    Q1()
+    main()

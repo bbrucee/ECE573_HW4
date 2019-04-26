@@ -136,5 +136,20 @@ def Q5_output():
     g.DFS(0)
 
 
+def main():
+    rel_path = sys.argv[1]  # "/data/NYC.txt"
+    cwd = os.getcwd()
+    abs_file_path = cwd + rel_path
+
+    g = load_txt_as_graph_list(abs_file_path)
+    print("Running BFS on NYC data, 0 as the source node")
+    g.BFS(0)
+    print("Running DFS on NYC data, 0 as the source node")
+    g.DFS(0)
+
+
+
+
 if __name__ == "__main__":
-    Q5_output()
+    # Q5_output()
+    main()

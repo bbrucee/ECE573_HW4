@@ -1,6 +1,7 @@
 ﻿import timeit
 import functools
 import os
+import sys
 
 
 # https://www.geeksforgeeks.org/prims-minimum-spanning-tree-mst-greedy-algo-5/
@@ -235,7 +236,19 @@ def Q2_timing():
     print("Prims completes in {} seconds".format(p))
 
 
+def main():
+    rel_path = sys.argv[1]  # "/data/mediumEWG.txt"
+    cwd = os.getcwd()
+    abs_file_path = cwd + rel_path
+    g_kruskal = load_txt_as_graph_list(abs_file_path)
+    print("Finidng MST using Kruskal")
+    g_kruskal.KruskalMST()
+
+    g_prim = load_txt_as_graph_matrix(abs_file_path)
+    print("Finidng MST using Prims")
+    g_prim.primMST()
+
+
 if __name__ == "__main__":
-    Q2_output()
-    Q2_timing()
+    main()
 
