@@ -148,8 +148,6 @@ def main():
     g.DFS(0)
 
 
-
-
 if __name__ == "__main__":
     # Q5_output()
     main()
