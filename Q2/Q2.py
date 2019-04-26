@@ -206,7 +206,7 @@ def load_txt_as_graph_matrix(filename):
 
 
 def Q2_output():
-    rel_path = "/data/mediumEWG.txt"
+    rel_path = "/Q2/data/mediumEWG.txt"
     cwd = os.getcwd()
     abs_file_path = cwd + rel_path
     g_kruskal = load_txt_as_graph_list(abs_file_path)
@@ -219,7 +219,7 @@ def Q2_output():
 
 
 def Q2_timing():
-    rel_path = "/data/mediumEWG.txt"
+    rel_path = "/Q2/data/mediumEWG.txt"
     cwd = os.getcwd()
     abs_file_path = cwd + rel_path
     g_kruskal = load_txt_as_graph_list(abs_file_path)

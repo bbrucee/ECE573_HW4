@@ -72,7 +72,7 @@ def load_txt_as_graph(filename):
 
 
 def Q1():
-    rel_path = "/data/mediumEWG.txt"
+    rel_path = "/Q1/data/mediumEWG.txt"
     cwd = os.getcwd()
     abs_file_path = cwd + rel_path
     g = load_txt_as_graph(abs_file_path)

@@ -125,7 +125,7 @@ def load_txt_as_graph_list(filename):
 
 
 def Q5_output():
-    rel_path = "/data/NYC.txt"
+    rel_path = "/Q5/data/NYC.txt"
     cwd = os.getcwd()
     abs_file_path = cwd + rel_path
 
