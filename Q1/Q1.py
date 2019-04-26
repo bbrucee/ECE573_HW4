@@ -1,4 +1,5 @@
-﻿# We can use a depth first traversal to detect cycles in a graph
+﻿import os
+# We can use a depth first traversal to detect cycles in a graph
 
 # If while visiting adjacent vertices we end up visiting something that has already been visited
 # Return False, graph is not acyclic
@@ -29,7 +30,6 @@ class Graph:
 
         # Mark the current node as visited and print it
         visited[v] = True
-        print(v)
 
         # Recur for all the vertices adjacent to
         # this vertex
@@ -55,16 +55,30 @@ class Graph:
                 self.DFSUtil(i, visited)
 
 
-if __name__ == "__main__":
-    # Create a graph given in the above diagram
-    g = Graph(4)
-    g.addEdge(0, 1)
-    g.addEdge(0, 2)
-    g.addEdge(1, 2)
-    g.addEdge(2, 0)
-    g.addEdge(2, 3)
-    g.addEdge(3, 3)
+def load_txt_as_graph(filename):
+    file = open(filename, "r")
+    vertex_count = int(file.readline())
+    g = Graph(vertex_count)
+    edge_count = int(file.readline())
+    print("{} vertices, {} edges".format(vertex_count, edge_count))
+    for line in file.readlines():
+        u = int(line.split(" ")[0])
+        v = int(line.split(" ")[1])
+        w = float(line.split(" ")[2])
+        g.addEdge(u, v)
+    file.close()
+    return g
 
-    print("Following is Depth First Traversal")
+
+def Q1():
+    rel_path = "/data/mediumEWG.txt"
+    cwd = os.getcwd()
+    abs_file_path = cwd + rel_path
+    g = load_txt_as_graph(abs_file_path)
+    print("Running modified DFS to look for cycles")
     g.DFS()
-    print("Is graph cyclic? {}".format(g.cyclic_bool))
+    print("Does graph contain cycles? {}".format(g.cyclic_bool))
+
+
+if __name__ == "__main__":
+    Q1()

@@ -1,4 +1,6 @@
-﻿from collections import defaultdict
+﻿import timeit
+import functools
+import os
 
 
 # https://www.geeksforgeeks.org/prims-minimum-spanning-tree-mst-greedy-algo-5/
@@ -26,9 +28,10 @@ class Graph_Prim():
 
         # Initilaize min value
         min_val = float("inf")
+        min_index = 0
 
         for v in range(self.V):
-            if key[v] < min_val and mstSet[v] == False:
+            if key[v] < min_val and not mstSet[v]:
                 min_val = key[v]
                 min_index = v
 
@@ -67,7 +70,7 @@ class Graph_Prim():
                 # graph[u][v] is non zero only for adjacent vertices of m
                 # mstSet[v] is false for vertices not yet included in MST
                 # Update the key only if graph[u][v] is smaller than key[v]
-                if self.graph[u][v] > 0 and mstSet[v] == False and key[v] > self.graph[u][v]:
+                if self.graph[u][v] > 0 and not mstSet[v] and key[v] > self.graph[u][v]:
                     key[v] = self.graph[u][v]
                     parent[v] = u
 
@@ -170,26 +173,69 @@ class Graph_MST:
             print("{} - {} \t {}".format(u, v, weight))
 
 
+def load_txt_as_graph_list(filename):
+    file = open(filename, "r")
+    vertex_count = int(file.readline())
+    g = Graph_MST(vertex_count)
+    edge_count = int(file.readline())
+    print("{} vertices, {} edges".format(vertex_count, edge_count))
+    for line in file.readlines():
+        u = int(line.split(" ")[0])
+        v = int(line.split(" ")[1])
+        w = float(line.split(" ")[2])
+        g.addEdge(u, v, w)
+    file.close()
+    return g
+
+
+def load_txt_as_graph_matrix(filename):
+    file = open(filename, "r")
+    vertex_count = int(file.readline())
+    g = Graph_Prim(vertex_count)
+    edge_count = int(file.readline())
+    print("{} vertices, {} edges".format(vertex_count, edge_count))
+    for line in file.readlines():
+        u = int(line.split(" ")[0])
+        v = int(line.split(" ")[1])
+        w = float(line.split(" ")[2])
+        g.graph[u][v] = w
+        g.graph[v][u] = w
+    file.close()
+    return g
+
+
+def Q2_output():
+    rel_path = "/data/mediumEWG.txt"
+    cwd = os.getcwd()
+    abs_file_path = cwd + rel_path
+    g_kruskal = load_txt_as_graph_list(abs_file_path)
+    print("Finidng MST using Kruskal")
+    g_kruskal.KruskalMST()
+
+    g_prim = load_txt_as_graph_matrix(abs_file_path)
+    print("Finidng MST using Prims")
+    g_prim.primMST()
+
+
+def Q2_timing():
+    rel_path = "/data/mediumEWG.txt"
+    cwd = os.getcwd()
+    abs_file_path = cwd + rel_path
+    g_kruskal = load_txt_as_graph_list(abs_file_path)
+    print("Timing MST using Kruskal")
+    kruskal_timer = timeit.Timer(functools.partial(g_kruskal.KruskalMST))
+    k = kruskal_timer.timeit(1)
+
+    g_prim = load_txt_as_graph_matrix(abs_file_path)
+    print("Timing MST using Prims")
+    g_prim.primMST()
+    prim_timer = timeit.Timer(functools.partial(g_prim.primMST))
+    p = prim_timer.timeit(1)
+    print("Kruskals completes in {} seconds".format(k))
+    print("Prims completes in {} seconds".format(p))
+
 
 if __name__ == "__main__":
-
-    g = Graph_MST(4)
-    g.addEdge(0, 1, 10)
-    g.addEdge(0, 2, 6)
-    g.addEdge(0, 3, 5)
-    g.addEdge(1, 3, 15)
-    g.addEdge(2, 3, 4)
-
-    g.KruskalMST()
-
-
-
-    g = Graph_Prim(5)
-    g.graph = [[0, 2, 0, 6, 0],
-               [2, 0, 3, 8, 5],
-               [0, 3, 0, 0, 7],
-               [6, 8, 0, 0, 9],
-               [0, 5, 7, 9, 0]]
-
-    g.primMST()
+    Q2_output()
+    Q2_timing()
 

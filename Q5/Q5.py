@@ -1,11 +1,15 @@
-﻿# Based on https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/
+﻿import sys
+import os
+sys.setrecursionlimit(1000000)
+
+
+# Based on https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/
 # modified for use
 # https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
 
 # This class represents a directed graph using adjacency
 # list representation
 class Graph:
-    cyclic_bool = False
 
     def __init__(self, num_vertices):
         self.graph = [[] for _ in range(num_vertices)]
@@ -27,16 +31,14 @@ class Graph:
         for i in self.graph[v]:  # Uses adjacency list to store edges, visit all neighbors
             if not visited[i]:  # Only if it is unvisited
                 self.DFSUtil(i, visited)
-            else:  # If the DFS tries to visit a neighbor that has already visited, then there must be a cycle
-                cyclic_bool = True
 
     # The function to do DFS traversal. It uses
     # recursive DFSUtil()
-    def DFS(self, s):
+    def DFS_recursive(self, s):
         V = len(self.graph)  # total vertices
 
         # Mark all the vertices as not visited
-        visited = [False] * (V)
+        visited = [False] * V
 
         # Start at source
         self.DFSUtil(s, visited)
@@ -46,8 +48,37 @@ class Graph:
             if not visited[i]:  # But only if it is unvisited
                 self.DFSUtil(i, visited)
 
-                # Function to print a BFS of graph
+    # iterative DFS
+    def DFS(self, s):
 
+        # Mark all the vertices as not visited
+        visited = [False] * (len(self.graph))
+
+        # Create a stack for DFS
+        stack = []
+
+        # Mark the source node as
+        # visited and enqueue it
+        stack.append(s)
+        visited[s] = True
+
+        while stack:
+
+            # take a vertex from
+            # stack and print it
+            s = stack.pop()
+            print(s)
+
+            # Get all adjacent vertices of the
+            # vertex s. If a adjacent
+            # has not been visited, then mark it
+            # visited and stack it
+            for i in self.graph[s]:
+                if not visited[i]:
+                    stack.append(i)
+                    visited[i] = True
+
+    # Function to print a BFS of graph
     def BFS(self, s):
 
         # Mark all the vertices as not visited
@@ -73,27 +104,37 @@ class Graph:
             # has not been visited, then mark it
             # visited and enqueue it
             for i in self.graph[s]:
-                if visited[i] == False:
+                if not visited[i]:
                     queue.append(i)
                     visited[i] = True
 
 
-def timing():
-    pass
+def load_txt_as_graph_list(filename):
+    file = open(filename, "r")
+    vertex_count = int(file.readline())
+    g = Graph(vertex_count)
+    edge_count = int(file.readline())
+    print("{} vertices, {} edges".format(vertex_count, edge_count))
+    for line in file.readlines():
+        u = int(line.split(" ")[0])
+        v = int(line.split(" ")[1])
+        w = float(line.split(" ")[2])
+        g.addEdge(u, v)
+    file.close()
+    return g
+
+
+def Q5_output():
+    rel_path = "/data/NYC.txt"
+    cwd = os.getcwd()
+    abs_file_path = cwd + rel_path
+
+    g = load_txt_as_graph_list(abs_file_path)
+    print("Running BFS on NYC data, 0 as the source node")
+    g.BFS(0)
+    print("Running DFS on NYC data, 0 as the source node")
+    g.DFS(0)
 
 
 if __name__ == "__main__":
-    # Driver code
-    # Create a graph given in the above diagram
-    g = Graph(4)
-    g.addEdge(0, 1)
-    g.addEdge(0, 2)
-    g.addEdge(1, 2)
-    g.addEdge(2, 0)
-    g.addEdge(2, 3)
-    g.addEdge(3, 3)
-
-    print("Following is Depth First Traversal")
-    g.DFS(1)
-    print("Following is Breadth First Traversal")
-    g.BFS(1)
+    Q5_output()

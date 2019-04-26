@@ -66,7 +66,7 @@ class Graph():
         self.printSolution(dist)
 
 
-if __name__ == "__main__":
+def Q6():
     g = Graph(8)
 
     '''
@@ -108,6 +108,7 @@ if __name__ == "__main__":
     for u, v, w in edge_list:
         g.graph[u][v] = w
 
+    print("Running Dijkstra on graph from Q4a (negative weights)")
     g.dijkstra(0)
 
     g = Graph(8)
@@ -151,4 +152,9 @@ if __name__ == "__main__":
     for u, v, w in edge_list:
         g.graph[u][v] = w
 
+    print("Running Dijkstra on graph from Q4b (negative cycle)")
     g.dijkstra(0)
+
+
+if __name__ == "__main__":
+    Q6()
