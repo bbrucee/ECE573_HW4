@@ -37,7 +37,7 @@ class Graph:
             if not visited[i]:  # Only if it is unvisited
                 self.DFSUtil(i, visited)
             else:  # If the DFS tries to visit a neighbor that has already visited, then there must be a cycle
-                cyclic_bool = True
+                self.cyclic_bool = True
 
     # The function to do DFS traversal. It uses
     # recursive DFSUtil()
@@ -67,4 +67,4 @@ if __name__ == "__main__":
 
     print("Following is Depth First Traversal")
     g.DFS()
-    print("Is acyclic? {}".format(g.cyclic_bool))
+    print("Is graph cyclic? {}".format(g.cyclic_bool))

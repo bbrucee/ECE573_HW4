@@ -78,6 +78,10 @@ class Graph:
                     visited[i] = True
 
 
+def timing():
+    pass
+
+
 if __name__ == "__main__":
     # Driver code
     # Create a graph given in the above diagram
